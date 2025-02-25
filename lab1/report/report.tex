@@ -1,0 +1,78 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[utf8]{inputenc}
+%\usepackage{cmake-build-debug/-wasysym-}
+\graphicspath{{.}}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage{geometry} % Меняем поля страницы
+\newcommand{\comment}{}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\begin{document}
+    \begin{titlepage}
+        \Large
+        \begin{center}
+            Санкт-Петербургский \\ Политехнический университет Петра Великого\\
+            \vspace{10em}Отчет по лабораторной работе №14\\
+            \vspace{2em}
+            \textbf{Решение краевой задачи для ОДУ 2-ого порядка.}
+        \end{center}
+        \vspace{6em}
+        \newbox{\lbox}
+        \savebox{\lbox}{\hbox{Швачко Никита Андреевич}}
+        \newlength{\maxl}
+        \setlength{\maxl}{\wd\lbox}
+        \hfill\parbox{10cm}{
+            \hspace*{2cm}\hspace*{-4cm}Студент:\hfill\hbox to\maxl{Швачко Никита Андреевич\hfill}\\
+            \hspace*{2cm}\hspace*{-4cm}Преподаватель:\hfill\hbox to\maxl{Козлов Константин Николаевич}\\
+            \hspace*{2cm}\hspace*{-4cm}Группа:\hfill\hbox to\maxl{5030102/20001}
+        }
+        \vspace{\fill}
+        \begin{center}
+            Санкт-Петербург \\2024
+        \end{center}
+    \end{titlepage}
+
+
+    \section{Формулировка задания и его формализация}\label{sec:----}
+    Для 4 распределений:\\
+    - Нормальное распределение $N(x, 0,1)$\\
+    - Распределение Коши $C(x, 0,1)$\\
+    - Распределение Пуассона $P(k, 10)$\\
+    - Равномерное распределение $U(x,-\sqrt{3}, \sqrt{3})$\\
+    1. Сгенерировать выборки размером 10,50 и 1000 элементов.
+    Построить на одном рисунке гистограмму и график плотности распределения.\\
+    2.
+    Сгенерировать выборки размером 10,100 и 1000 элементов.
+    Для каждой выборки вычислить следующие статистические характеристики положения данных:
+    $\bar{x}, \operatorname{med} x, z_Q$.
+    Повторить такие вычисления 1000 раз для каждой выборки и найти среднее характеристик положения и их квадратов:
+    \\
+    $$
+    E(z)=\bar{z}
+    $$
+
+
+    Вычислить оценку дисперсии по формуле:
+
+    $$
+    D(z)=\overline{z^2}-\bar{z}^2
+    $$
+
+
+    Представить полученные данные в виде таблиц.
+    \\  Пояснение
+
+    $$
+    z_Q=\frac{z_{1 / 4}+z_{3 / 4}}{2}
+    $$
+
+
+\end{document}
