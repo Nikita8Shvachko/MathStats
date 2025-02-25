@@ -37,35 +37,50 @@ plt.savefig("histograms.png")
 plt.show()
 
 # %% 2
+import numpy as np
 import pandas as pd
+from math import sqrt
 
 num_experiments = 1000
 sizes = [10, 100, 1000]
+distributions = {
+    "Нормальное": lambda size: np.random.normal(loc=0, scale=1, size=size),
+    "Коши": lambda size: np.random.standard_cauchy(size=size),
+    "Пуассон": lambda size: np.random.poisson(lam=10, size=size),
+    "Равномерное": lambda size: np.random.uniform(low=-sqrt(3), high=sqrt(3), size=size),
+}
 
-results = {size: {"mean": [], "median": [], "quartile_mean": []} for size in sizes}
+# Создаем структуру для хранения результатов
+results = {name: {size: {"$\\bar{x}$": [], "$\operatorname{med} x$": [], "$z_Q$": []} for size in sizes} for name in distributions}
 
-# Генерация 1000 выборок и расчет статистик
-for size in sizes:
-    for _ in range(num_experiments):
-        sample = np.random.normal(loc=0, scale=1, size=size)  # Используем нормальное распределение
-        mean_x = np.mean(sample)
-        median_x = np.median(sample)
-        quartile_mean_x = (np.percentile(sample, 25) + np.percentile(sample, 75)) / 2
+# Генерация выборок и расчет статистик
+for name, dist_func in distributions.items():
+    for size in sizes:
+        for _ in range(num_experiments):
+            sample = dist_func(size)
+            mean_x = np.mean(sample)
+            median_x = np.median(sample)
+            quartile_mean_x = (np.percentile(sample, 25) + np.percentile(sample, 75)) / 2
 
-        results[size]["mean"].append(mean_x)
-        results[size]["median"].append(median_x)
-        results[size]["quartile_mean"].append(quartile_mean_x)
+            results[name][size]["$\\bar{x}$"].append(mean_x)
+            results[name][size]["$\operatorname{med} x$"].append(median_x)
+            results[name][size]["$z_Q$"].append(quartile_mean_x)
 
-# Вычисление статистик
+# Вычисление статистик и формирование таблицы
 table = []
-for size in sizes:
-    for stat_name in ["mean", "median", "quartile_mean"]:
-        mean_z = np.mean(results[size][stat_name])  # E(z)
-        mean_z2 = np.mean(np.square(results[size][stat_name]))  # E(z^2)
-        var_z = mean_z2 - mean_z**2  # D(z)
+for name in distributions:
+    for size in sizes:
+        for stat_name in ["$\\bar{x}$", "$\operatorname{med} x$", "$z_Q$"]:
+            mean_z = np.mean(results[name][size][stat_name])  # E(z)
+            mean_z2 = np.mean(np.square(results[name][size][stat_name]))  # E(z^2)
+            var_z = mean_z2 - mean_z**2  # D(z)
 
-        table.append([size, stat_name, mean_z, var_z])
+            table.append([name, size, stat_name, mean_z, var_z])
 
 # Преобразуем в DataFrame
-df = pd.DataFrame(table, columns=["Sample Size", "Statistic", "E(z)", "D(z)"])
-print(df)
+df = pd.DataFrame(table, columns=["Распределение", "Выборка", "характеристика", "E(z)", "D(z)"])
+
+# Формируем таблицу LaTeX
+latex_table = df.to_latex(index=False, escape=False, column_format="|c|c|c|c|c|")
+
+print(latex_table)
