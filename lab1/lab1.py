@@ -1,6 +1,7 @@
+import math
+
 import matplotlib.pyplot as plt
 import numpy as np
-import math
 import seaborn as sns
 
 # Генерация выборок разного размера
@@ -51,7 +52,8 @@ distributions = {
 }
 
 # Создаем структуру для хранения результатов
-results = {name: {size: {"$\\bar{x}$": [], "$\operatorname{med} x$": [], "$z_Q$": []} for size in sizes} for name in distributions}
+results = {name: {size: {"$\\bar{x}$": [], "$\operatorname{med} x$": [], "$z_Q$": []} for size in sizes} for name in
+           distributions}
 
 # Генерация выборок и расчет статистик
 for name, dist_func in distributions.items():
@@ -73,7 +75,7 @@ for name in distributions:
         for stat_name in ["$\\bar{x}$", "$\operatorname{med} x$", "$z_Q$"]:
             mean_z = np.mean(results[name][size][stat_name])  # E(z)
             mean_z2 = np.mean(np.square(results[name][size][stat_name]))  # E(z^2)
-            var_z = mean_z2 - mean_z**2  # D(z)
+            var_z = mean_z2 - mean_z ** 2  # D(z)
 
             table.append([name, size, stat_name, mean_z, var_z])
 
