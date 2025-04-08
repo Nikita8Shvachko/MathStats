@@ -73,20 +73,34 @@ def plot_samples(samples, rho, size, distribution_name):
 
 # Основной цикл для нормального распределения
 results = {}
+true_rhos = {}
 for rho in rhos:
     for size in sizes:
         samples = generate_bivariate_normal(size, rho)
         stats_result = compute_statistics(samples)
+        actual_rho = np.corrcoef(samples[:, 0], samples[:, 1])[0, 1]
+
         results[("Normal", rho, size)] = stats_result
+        true_rhos[("Normal", rho, size)] = actual_rho
+
         plot_samples(samples, rho, size, "Normal")
 
 # Основной цикл для смеси нормальных распределений
 for size in sizes:
     samples = generate_mixture_normal(size)
     stats_result = compute_statistics(samples)
+    actual_rho = np.corrcoef(samples[:, 0], samples[:, 1])[0, 1]
+
     results[("Mixture", "", size)] = stats_result
+    true_rhos[("Mixture", "", size)] = actual_rho
+
     plot_samples(samples, "Mixture", size, "Mixture")
 
-# Вывод результатов
+# Вывод результатов с фактической корреляцией
 for key, value in results.items():
-    print(f'{key} & {value["pearson"][0]:.5f} & {value["spearman"][0]:.5f} & {value["quadrant"][0]:.5f} \\\\')
+    expected_rho = key[1] if key[0] == "Normal" else "mixture"
+    actual_rho = true_rhos[key]
+    print(f'{key} &  {actual_rho:.2f} & '
+          f' {value["pearson"][0]:.2f} & '
+          f' {value["spearman"][0]:.2f} & '
+          f' {value["quadrant"][0]:.2f} \\\\')

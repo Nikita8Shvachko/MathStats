@@ -52,7 +52,7 @@ distributions = {
 }
 
 # Создаем структуру для хранения результатов
-results = {name: {size: {"$\\bar{x}$": [], "$\operatorname{med} x$": [], "$z_Q$": []} for size in sizes} for name in
+results = {name: {size: {"$\\bar{x}$": [], "$\\operatorname{med} x$": [], "$z_Q$": []} for size in sizes} for name in
            distributions}
 
 # Генерация выборок и расчет статистик
@@ -65,14 +65,14 @@ for name, dist_func in distributions.items():
             quartile_mean_x = (np.percentile(sample, 25) + np.percentile(sample, 75)) / 2
 
             results[name][size]["$\\bar{x}$"].append(mean_x)
-            results[name][size]["$\operatorname{med} x$"].append(median_x)
+            results[name][size]["$\\operatorname{med} x$"].append(median_x)
             results[name][size]["$z_Q$"].append(quartile_mean_x)
 
 # Вычисление статистик и формирование таблицы
 table = []
 for name in distributions:
     for size in sizes:
-        for stat_name in ["$\\bar{x}$", "$\operatorname{med} x$", "$z_Q$"]:
+        for stat_name in ["$\\bar{x}$", "$\\operatorname{med} x$", "$z_Q$"]:
             mean_z = np.mean(results[name][size][stat_name])  # E(z)
             mean_z2 = np.mean(np.square(results[name][size][stat_name]))  # E(z^2)
             var_z = mean_z2 - mean_z ** 2  # D(z)
@@ -80,9 +80,16 @@ for name in distributions:
             table.append([name, size, stat_name, mean_z, var_z])
 
 # Преобразуем в DataFrame
-df = pd.DataFrame(table, columns=["Распределение", "Выборка", "характеристика", "E(z)", "D(z)"])
+# Формируем таблицу LaTeX с форматированием
+def format_num(x):
+    return f'{x:.2f}'.rstrip('0').rstrip('.') if '.' in f'{x:.2f}' else f'{x:.2f}'
 
-# Формируем таблицу LaTeX
-latex_table = df.to_latex(index=False, escape=False, column_format="|c|c|c|c|c|")
+formatted_table = []
+for row in table:
+    formatted_row = [ row[1], row[2], format_num(row[3]), format_num(row[4])]
+    formatted_table.append(formatted_row)
+
+formatted_df = pd.DataFrame(formatted_table, columns=[ "Выборка", "Характеристика", "E(z)", "D(z)"])
+latex_table = formatted_df.to_latex(index=False, escape=False, column_format="|c|c|c|c|")
 
 print(latex_table)
