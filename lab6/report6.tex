@@ -1,0 +1,135 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[russian]{babel}
+\usepackage[pdftex]{graphicx}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+
+\begin{document}
+
+    \begin{titlepage}
+        \Large
+        \begin{center}
+            Санкт-Петербургский \ Политехнический университет Петра Великого\\
+            \vspace{10em}Отчет по лабораторной работе №6\\
+            \vspace{2em}
+            \textbf{Доверительные интервалы для параметров нормального распределения}
+        \end{center}
+        \vspace{6em}
+        \hfill\parbox{10cm}{
+            \hspace*{2cm}\hspace*{-4cm}Студент:\hfill Швачко Никита Андреевич\\
+            \hspace*{2cm}\hspace*{-4cm}Преподаватель:\hfill Баженов Александр Николаевич\\
+            \hspace*{2cm}\hspace*{-4cm}Группа:\hfill 5030102/20202
+        }
+        \vspace{\fill}
+        \begin{center}
+            Санкт-Петербург \ 2025
+        \end{center}
+    \end{titlepage}
+
+
+    \section{Постановка задачи}
+
+    Для выборок мощностью $n=20$ и $n=100$ требуется:
+
+    \begin{enumerate}
+        \item Построить доверительные интервалы для параметров:
+        \begin{itemize}
+            \item нормального распределения;
+            \item произвольного распределения, используя асимптотический подход.
+        \end{itemize}
+        \item Представить результаты в виде таблиц.
+    \end{enumerate}
+
+
+    \section{Результаты эксперимента}
+
+    \subsection{Доверительные интервалы для параметров нормального распределения}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $n=20$ & $m$ & $\sigma$ \\
+            \hline
+            & $0.16 < m < 0.98$ & $0.66 < \sigma < 1.27$ \\
+            \hline
+            $n=100$ & $m$ & $\sigma$ \\
+            \hline
+            & $-0.17 < m < 0.26$ & $0.93 < \sigma < 1.24$ \\
+            \hline
+        \end{tabular}
+        \caption{Доверительные интервалы для параметров нормального распределения}
+    \end{table}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $n=20$ & $m$ (твин) & $\sigma$ (твин) \\
+            \hline
+            & $[[0.16, 0.16], [0.98, 0.98]]$ & $[[0.66, 0.66], [1.27, 1.27]]$ \\
+            \hline
+            $n=100$ & $m$ (твин) & $\sigma$ (твин) \\
+            \hline
+            & $[[-0.17, -0.17], [0.26, 0.26]]$ & $[[0.93, 0.93], [1.24, 1.24]]$ \\
+            \hline
+        \end{tabular}
+        \caption{Твины для параметров нормального распределения}
+    \end{table}
+
+    \subsection{Доверительные интервалы для параметров произвольного распределения. Асимптотический подход}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $n=20$ & $m$ & $\sigma$ \\
+            \hline
+            & $0.19 < m < 0.95$ & $0.66 < \sigma < 1.27$ \\
+            \hline
+            $n=100$ & $m$ & $\sigma$ \\
+            \hline
+            & $-0.16 < m < 0.25$ & $0.93 < \sigma < 1.24$ \\
+            \hline
+        \end{tabular}
+        \caption{Доверительные интервалы для параметров произвольного распределения. Асимптотический подход}
+    \end{table}
+
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            $n=20$ & $m$ (твин) & $\sigma$ (твин) \\
+            \hline
+            & $[[0.19, 0.19], [0.95, 0.95]]$ & $[[0.66, 0.66], [1.27, 1.27]]$ \\
+            \hline
+            $n=100$ & $m$ (твин) & $\sigma$ (твин) \\
+            \hline
+            & $[[-0.16, -0.16], [0.25, 0.25]]$ & $[[0.93, 0.93], [1.24, 1.24]]$ \\
+            \hline
+        \end{tabular}
+        \caption{Твины для параметров произвольного распределения. Асимптотический подход}
+    \end{table}
+
+
+    \section{Выводы}
+    В ходе выполнения лабораторной работы были построены доверительные интервалы для параметров распределения на основе выборок объёмом $n=20$ и $n=100$.
+
+    \begin{itemize}
+        \item Для нормального распределения интервалы были рассчитаны с использованием точных методов.
+        \item Для произвольного распределения применён асимптотический подход, базирующийся на центральной предельной теореме.
+        \item Как и ожидалось, при увеличении объёма выборки интервалы становятся уже, что указывает на повышение точности оценки параметров.
+        \item Результаты подтверждают теоретические ожидания и демонстрируют корректность применённых статистических методов.
+    \end{itemize}
+
+\end{document}

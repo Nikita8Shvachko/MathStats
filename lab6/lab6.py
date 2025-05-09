@@ -1,4 +1,5 @@
 import numpy as np
+
 import scipy.stats as stats
 
 np.random.seed(0)  # Для воспроизводимости
@@ -49,23 +50,29 @@ def asymptotic_confidence_intervals(sample, alpha=0.05):
 def print_table_header(title):
     print(f"\n## {title}")
     print("| $n$ | $m$ | $\\sigma$ |")
-    print("|:---:|:-----------------------------:|:-------------------------------:|")
+    print("|:---:|:-----------------------------:|:-------------------------------:")
 
 
 def format_interval(interval):
-    return f"{interval[0]:.2f} < m < {interval[1]:.2f}", f"{interval[0]:.2f} < σ < {interval[1]:.2f}"
+    interval_str = f"{interval[0]:.2f} < x < {interval[1]:.2f}"
+    twin_str = f"[[{interval[0]:.2f}, {interval[0]:.2f}], [{interval[1]:.2f}, {interval[1]:.2f}]]"
+    return interval_str, twin_str
 
 
 print_table_header("Доверительные интервалы для параметров нормального распределения")
+print("| $n$ | $m$ | $\\sigma$ | $m$ (твин) | $\\sigma$ (твин) |")
+print("|:---:|:-----------------------------:|:-------------------------------:|:-----------------------------:|:-------------------------------:|")
 for n in n_values:
     m_interval, s_interval = normal_confidence_intervals(samples[n])
-    m_str = f"{m_interval[0]:.2f} < m < {m_interval[1]:.2f}"
-    s_str = f"{s_interval[0]:.2f} < σ < {s_interval[1]:.2f}"
-    print(f"| {n} | {m_str} | {s_str} |")
+    m_str, m_twin = format_interval(m_interval)
+    s_str, s_twin = format_interval(s_interval)
+    print(f"| {n} | {m_str} | {s_str} | {m_twin} | {s_twin} |")
 
 print_table_header("Доверительные интервалы для параметров произвольного распределения. Асимптотический подход")
+print("| $n$ | $m$ | $\\sigma$ | $m$ (твин) | $\\sigma$ (твин) |")
+print("|:---:|:-----------------------------:|:-------------------------------:|:-----------------------------:|:-------------------------------:|")
 for n in n_values:
     m_interval, s_interval = asymptotic_confidence_intervals(samples[n])
-    m_str = f"{m_interval[0]:.2f} < m < {m_interval[1]:.2f}"
-    s_str = f"{s_interval[0]:.2f} < σ < {s_interval[1]:.2f}"
-    print(f"| {n} | {m_str} | {s_str} |")
+    m_str, m_twin = format_interval(m_interval)
+    s_str, s_twin = format_interval(s_interval)
+    print(f"| {n} | {m_str} | {s_str} | {m_twin} | {s_twin} |")

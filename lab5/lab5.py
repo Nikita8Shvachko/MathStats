@@ -13,7 +13,7 @@ def estimate_normal_parameters(sample):
 def chi_square_test(sample, distribution_type='normal', mu_hat=None, sigma_hat=None):
     n = len(sample)
 
-    k = 10  # количество интервалов
+    k = 6  # количество интервалов
     bins = np.linspace(min(sample), max(sample), k + 1)
     observed_frequencies, _ = np.histogram(sample, bins=bins)
 
@@ -72,13 +72,17 @@ print("\nРезультаты для равномерного распредел
 print(f"Вычисленное значение хи-квадрат для равномерного распределения: {chi_squared_stat_uniform_100}")
 print(f"Квантиль хи-квадрат для равномерного распределения: {critical_value_uniform}")
 print(f"Гипотеза H0 о равномерном распределении для 100 элементов {result_uniform_100}")
-
+_, observed_frequencies_normal, theoretical_frequencies_normal, bins = chi_square_test(
+    sample_uniform_20,
+    distribution_type='uniform',
+    mu_hat=mu_hat,
+    sigma_hat=sigma_hat)
 print("\nРезультаты для равномерного распределения (20 элементов):")
 print(f"Вычисленное значение хи-квадрат для равномерного распределения: {chi_squared_stat_uniform_20}")
 print(f"Квантиль хи-квадрат для равномерного распределения: {critical_value_uniform}")
 print(f"Гипотеза H0 о равномерном распределении для 20 элементов {result_uniform_20}")
-for i in range(10):
-    print(f"Интервал {bins[i]:.2f} - {bins[i + 1]:.2f}: "
-          f"n_i = {observed_frequencies_normal[i]}, "
-          f"np_i = {theoretical_frequencies_normal[i]:.2f}, "
-          f"(ni - npi)^2/npi = {(observed_frequencies_normal[i] - theoretical_frequencies_normal[i]) ** 2 / theoretical_frequencies_normal[i]:.2f}")
+for i in range(len(bins) - 1):
+    print(f"$[{bins[i]:.2f}, {bins[i + 1]:.2f}]$"
+          f"&{observed_frequencies_normal[i]}&"
+          f"{theoretical_frequencies_normal[i]:.2f}&"
+          f"{(observed_frequencies_normal[i] - theoretical_frequencies_normal[i]) ** 2 / theoretical_frequencies_normal[i]:.2f}\\\\")
